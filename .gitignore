@@ -1,0 +1,7 @@
+*.class
+
+*._trace
+
+*.xtendbin
+
+*.xml_gen

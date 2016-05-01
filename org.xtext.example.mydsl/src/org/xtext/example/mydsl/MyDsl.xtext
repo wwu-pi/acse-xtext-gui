@@ -1,0 +1,28 @@
+grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.common.Terminals
+
+generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+Model:
+	windows+=Window+;
+	
+Window:
+	'Window' id=ID '{' ('Title' title=STRING)? ('Parameters' parameters=INT)? (main='main')? elements+=Element* '}';
+	
+Element:
+	LabeledText | Label | Button;
+	
+LabeledText:
+	'LabeledText' id=ID (text=STRING)? (validator=Validator)?;
+	
+Validator:
+	'Validator' (restriction='numeric' | 
+	             restriction='letters' | 
+	             restriction='date');
+	
+Label: 
+	'Label' text=STRING;
+	
+Button:
+	'Button' id=ID (text=STRING)? ;
+
+//terminal MYSTRING: ('a'..'z'|'A'..'Z'|'0'..'9'|'.'|':'|'!'|'?'|' ')+;
