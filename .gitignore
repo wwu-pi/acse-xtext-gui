@@ -5,10 +5,3 @@
 *.xtendbin
 
 *.xml_gen
-
-bin/
-!bin/.gitignore
-src-gen/
-!src-gen/.gitignore
-xtend-gen/
-!xtend-gen/.gitignore
