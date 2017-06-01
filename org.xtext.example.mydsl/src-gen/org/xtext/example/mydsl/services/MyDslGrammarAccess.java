@@ -200,7 +200,7 @@ public class MyDslGrammarAccess extends AbstractGrammarElementFinder {
 		//'Validator'
 		public Keyword getValidatorKeyword_0() { return cValidatorKeyword_0; }
 
-		//(restriction='numeric' | restriction='letters' | restriction='date')
+		//restriction='numeric' | restriction='letters' | restriction='date'
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 
 		//restriction='numeric'
@@ -421,7 +421,7 @@ public class MyDslGrammarAccess extends AbstractGrammarElementFinder {
 	} 
 
 	//terminal ML_COMMENT:
-	//	'/ *'->'* /';
+	//	'/*'->'*/';
 	public TerminalRule getML_COMMENTRule() {
 		return gaTerminals.getML_COMMENTRule();
 	} 

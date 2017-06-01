@@ -27,8 +27,7 @@ public class MyDslGenerator implements IGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
     InputOutput.<String>println("Start processing ");
-    EList<EObject> _contents = resource.getContents();
-    EObject _head = IterableExtensions.<EObject>head(_contents);
+    EObject _head = IterableExtensions.<EObject>head(resource.getContents());
     final Model model = ((Model) _head);
     EList<Window> _windows = model.getWindows();
     for (final Window win : _windows) {
@@ -39,8 +38,7 @@ public class MyDslGenerator implements IGenerator {
         InputOutput.<String>println(_plus_1);
         String _id_1 = win.getId();
         String _plus_2 = (_id_1 + ".java");
-        CharSequence _generateWindow = this.generateWindow(win);
-        fsa.generateFile(_plus_2, _generateWindow);
+        fsa.generateFile(_plus_2, this.generateWindow(win));
       }
     }
     InputOutput.<String>println("Finished ");
@@ -53,16 +51,11 @@ public class MyDslGenerator implements IGenerator {
     EList<Element> _elements = win.getElements();
     for (final Element elem : _elements) {
       boolean _matched = false;
-      if (!_matched) {
-        if (elem instanceof Label) {
-          _matched=true;
-          int _labelNo = labelNo = (labelNo + 1);
-          String _text = ((Label)elem).getText();
-          CharSequence _generateLabel = this.generateLabel(_labelNo, _text);
-          String _string = _generateLabel.toString();
-          String _plus = (output + _string);
-          output = _plus;
-        }
+      if (elem instanceof Label) {
+        _matched=true;
+        String _string = this.generateLabel(labelNo = (labelNo + 1), ((Label)elem).getText()).toString();
+        String _plus = (output + _string);
+        output = _plus;
       }
       if (!_matched) {
         if (elem instanceof LabeledText) {
@@ -70,11 +63,9 @@ public class MyDslGenerator implements IGenerator {
           String _text = ((LabeledText)elem).getText();
           boolean _equals = Objects.equal(_text, null);
           if (_equals) {
-            String _id = ((LabeledText)elem).getId();
-            ((LabeledText)elem).setText(_id);
+            ((LabeledText)elem).setText(((LabeledText)elem).getId());
           }
-          CharSequence _generateLabeledText = this.generateLabeledText(((LabeledText)elem));
-          String _string = _generateLabeledText.toString();
+          String _string = this.generateLabeledText(((LabeledText)elem)).toString();
           String _plus = (output + _string);
           output = _plus;
           textFields.add(elem);
@@ -83,15 +74,13 @@ public class MyDslGenerator implements IGenerator {
       if (!_matched) {
         if (elem instanceof Button) {
           _matched=true;
-          CharSequence _generateButton = this.generateButton(((Button)elem), textFields);
-          String _string = _generateButton.toString();
+          String _string = this.generateButton(((Button)elem), textFields).toString();
           String _plus = (output + _string);
           output = _plus;
         }
       }
     }
-    CharSequence _generateFinish = this.generateFinish();
-    String _string = _generateFinish.toString();
+    String _string = this.generateFinish().toString();
     String _plus = (output + _string);
     output = _plus;
     return output;
@@ -117,7 +106,7 @@ public class MyDslGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("public class ");
     String _id = win.getId();
-    _builder.append(_id, "");
+    _builder.append(_id);
     _builder.append(" {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
@@ -202,23 +191,23 @@ public class MyDslGenerator implements IGenerator {
   public CharSequence generateLabel(final int no, final String text) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Label label");
-    _builder.append(no, "");
+    _builder.append(no);
     _builder.append(" = new Label(shell, SWT.NONE);");
     _builder.newLineIfNotEmpty();
     _builder.append("label");
-    _builder.append(no, "");
+    _builder.append(no);
     _builder.append(".setText(\"");
-    _builder.append(text, "");
+    _builder.append(text);
     _builder.append("\");");
     _builder.newLineIfNotEmpty();
     _builder.append("GridData data");
-    _builder.append(no, "");
+    _builder.append(no);
     _builder.append(" = new GridData(GridData.FILL, GridData.BEGINNING, true, false, 2, 1);");
     _builder.newLineIfNotEmpty();
     _builder.append("label");
-    _builder.append(no, "");
+    _builder.append(no);
     _builder.append(".setLayoutData(data");
-    _builder.append(no, "");
+    _builder.append(no);
     _builder.append(");");
     _builder.newLineIfNotEmpty();
     return _builder;
@@ -228,7 +217,7 @@ public class MyDslGenerator implements IGenerator {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Label ");
     String _id = lt.getId();
-    _builder.append(_id, "");
+    _builder.append(_id);
     _builder.append("Label = new Label(shell, SWT.NONE);");
     _builder.newLineIfNotEmpty();
     {
@@ -236,39 +225,39 @@ public class MyDslGenerator implements IGenerator {
       boolean _notEquals = (!Objects.equal(_text, null));
       if (_notEquals) {
         String _id_1 = lt.getId();
-        _builder.append(_id_1, "");
+        _builder.append(_id_1);
         _builder.append("Label.setText(\"");
         String _text_1 = lt.getText();
-        _builder.append(_text_1, "");
+        _builder.append(_text_1);
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
         String _id_2 = lt.getId();
-        _builder.append(_id_2, "");
+        _builder.append(_id_2);
         _builder.append("Label.setToolTipText(\"enter ");
         String _text_2 = lt.getText();
-        _builder.append(_text_2, "");
+        _builder.append(_text_2);
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
       } else {
         String _id_3 = lt.getId();
-        _builder.append(_id_3, "");
+        _builder.append(_id_3);
         _builder.append("Label.setText(\"");
         String _id_4 = lt.getId();
-        _builder.append(_id_4, "");
+        _builder.append(_id_4);
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
         String _id_5 = lt.getId();
-        _builder.append(_id_5, "");
+        _builder.append(_id_5);
         _builder.append("Label.setToolTipText(\"enter ");
         String _id_6 = lt.getId();
-        _builder.append(_id_6, "");
+        _builder.append(_id_6);
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
       }
     }
     _builder.append("final Text ");
     String _id_7 = lt.getId();
-    _builder.append(_id_7, "");
+    _builder.append(_id_7);
     _builder.append("Text = new Text(shell, SWT.LEFT);   ");
     _builder.newLineIfNotEmpty();
     return _builder;
@@ -278,7 +267,7 @@ public class MyDslGenerator implements IGenerator {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Button ");
     String _id = button.getId();
-    _builder.append(_id, "");
+    _builder.append(_id);
     _builder.append(" =  new Button(shell, SWT.PUSH);");
     _builder.newLineIfNotEmpty();
     {
@@ -295,16 +284,16 @@ public class MyDslGenerator implements IGenerator {
         _builder.newLineIfNotEmpty();
       } else {
         String _id_2 = button.getId();
-        _builder.append(_id_2, "");
+        _builder.append(_id_2);
         _builder.append(".setText(\"");
         String _id_3 = button.getId();
-        _builder.append(_id_3, "");
+        _builder.append(_id_3);
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
       }
     }
     String _id_4 = button.getId();
-    _builder.append(_id_4, "");
+    _builder.append(_id_4);
     _builder.append(".addSelectionListener(");
     _builder.newLineIfNotEmpty();
     _builder.append("    \t\t");
@@ -327,7 +316,7 @@ public class MyDslGenerator implements IGenerator {
           if (_notEquals_1) {
             _builder.append(" ");
             String _validate = this.validate(((LabeledText) elem));
-            _builder.append(_validate, "");
+            _builder.append(_validate);
             _builder.newLineIfNotEmpty();
           }
         }
@@ -359,22 +348,19 @@ public class MyDslGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("          \t");
     _builder.append("MessageBox messageBox");
-    String _id_5 = button.getId();
-    String _firstUpper = this.toFirstUpper(_id_5);
+    String _firstUpper = this.toFirstUpper(button.getId());
     _builder.append(_firstUpper, "          \t");
     _builder.append(" = new MessageBox(shell,SWT.ICON_ERROR);");
     _builder.newLineIfNotEmpty();
     _builder.append("          \t");
     _builder.append("messageBox");
-    String _id_6 = button.getId();
-    String _firstUpper_1 = this.toFirstUpper(_id_6);
+    String _firstUpper_1 = this.toFirstUpper(button.getId());
     _builder.append(_firstUpper_1, "          \t");
     _builder.append(".setMessage(ex.getMessage());");
     _builder.newLineIfNotEmpty();
     _builder.append("          \t");
     _builder.append("messageBox");
-    String _id_7 = button.getId();
-    String _firstUpper_2 = this.toFirstUpper(_id_7);
+    String _firstUpper_2 = this.toFirstUpper(button.getId());
     _builder.append(_firstUpper_2, "          \t");
     _builder.append(".open();");
     _builder.newLineIfNotEmpty();
@@ -416,127 +402,110 @@ public class MyDslGenerator implements IGenerator {
   public String validate(final LabeledText elem) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("String str");
-    String _id = elem.getId();
-    String _firstUpper = this.toFirstUpper(_id);
-    _builder.append(_firstUpper, "");
+    String _firstUpper = this.toFirstUpper(elem.getId());
+    _builder.append(_firstUpper);
     _builder.append(" = ");
-    String _id_1 = elem.getId();
-    _builder.append(_id_1, "");
+    String _id = elem.getId();
+    _builder.append(_id);
     _builder.append("Text.getText();");
     _builder.newLineIfNotEmpty();
     CharSequence _switchResult = null;
-    Validator _validator = elem.getValidator();
-    String _restriction = _validator.getRestriction();
-    switch (_restriction) {
-      case "numeric":
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("int value");
-        String _id_2 = elem.getId();
-        String _firstUpper_1 = this.toFirstUpper(_id_2);
-        _builder_1.append(_firstUpper_1, "");
-        _builder_1.append(" = Integer.parseInt(str");
-        String _id_3 = elem.getId();
-        String _firstUpper_2 = this.toFirstUpper(_id_3);
-        _builder_1.append(_firstUpper_2, "");
-        _builder_1.append(");");
-        _builder_1.newLineIfNotEmpty();
-        _switchResult = _builder_1;
-        break;
-      case "letters":
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("for (int i = 0;  i<str");
-        String _id_4 = elem.getId();
-        String _firstUpper_3 = this.toFirstUpper(_id_4);
-        _builder_2.append(_firstUpper_3, "");
-        _builder_2.append(".length(); i++){");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("\t");
-        _builder_2.append("char c = str");
-        String _id_5 = elem.getId();
-        String _firstUpper_4 = this.toFirstUpper(_id_5);
-        _builder_2.append(_firstUpper_4, "\t");
-        _builder_2.append(".charAt(i);");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("\t");
-        _builder_2.append("if (!((c >= \'a\' && c <= \'z\') || (c >= \'A\' && c <= \'Z\') || (c == \' \'))) {");
-        _builder_2.newLine();
-        _builder_2.append("\t\t");
-        _builder_2.append("throw new Exception(\"erroneous syntax\");}}    ");
-        _builder_2.newLine();
-        _switchResult = _builder_2;
-        break;
-      case "date":
-        StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("int day");
-        String _id_6 = elem.getId();
-        String _firstUpper_5 = this.toFirstUpper(_id_6);
-        _builder_3.append(_firstUpper_5, "");
-        _builder_3.append(" = Integer.parseInt(str");
-        String _id_7 = elem.getId();
-        String _firstUpper_6 = this.toFirstUpper(_id_7);
-        _builder_3.append(_firstUpper_6, "");
-        _builder_3.append(".substring(0,2));");
-        _builder_3.newLineIfNotEmpty();
-        _builder_3.append("if (str");
-        String _id_8 = elem.getId();
-        String _firstUpper_7 = this.toFirstUpper(_id_8);
-        _builder_3.append(_firstUpper_7, "");
-        _builder_3.append(".charAt(2) != \'.\') throw new Exception(\"erroneous syntax\");");
-        _builder_3.newLineIfNotEmpty();
-        _builder_3.append("int month");
-        String _id_9 = elem.getId();
-        String _firstUpper_8 = this.toFirstUpper(_id_9);
-        _builder_3.append(_firstUpper_8, "");
-        _builder_3.append(" = Integer.parseInt(str");
-        String _id_10 = elem.getId();
-        String _firstUpper_9 = this.toFirstUpper(_id_10);
-        _builder_3.append(_firstUpper_9, "");
-        _builder_3.append(".substring(3,5));");
-        _builder_3.newLineIfNotEmpty();
-        _builder_3.append("if (str");
-        String _id_11 = elem.getId();
-        String _firstUpper_10 = this.toFirstUpper(_id_11);
-        _builder_3.append(_firstUpper_10, "");
-        _builder_3.append(".charAt(5) != \'.\') throw new Exception(\"erroneous syntax\");");
-        _builder_3.newLineIfNotEmpty();
-        _builder_3.append("int year");
-        String _id_12 = elem.getId();
-        String _firstUpper_11 = this.toFirstUpper(_id_12);
-        _builder_3.append(_firstUpper_11, "");
-        _builder_3.append(" = Integer.parseInt(str");
-        String _id_13 = elem.getId();
-        String _firstUpper_12 = this.toFirstUpper(_id_13);
-        _builder_3.append(_firstUpper_12, "");
-        _builder_3.append(".substring(6,10));");
-        _builder_3.newLineIfNotEmpty();
-        _builder_3.append("Date date");
-        String _id_14 = elem.getId();
-        String _firstUpper_13 = this.toFirstUpper(_id_14);
-        _builder_3.append(_firstUpper_13, "");
-        _builder_3.append(" = new Date(year");
-        String _id_15 = elem.getId();
-        String _firstUpper_14 = this.toFirstUpper(_id_15);
-        _builder_3.append(_firstUpper_14, "");
-        _builder_3.append("-1900,month");
-        String _id_16 = elem.getId();
-        String _firstUpper_15 = this.toFirstUpper(_id_16);
-        _builder_3.append(_firstUpper_15, "");
-        _builder_3.append("-1,day");
-        String _id_17 = elem.getId();
-        String _firstUpper_16 = this.toFirstUpper(_id_17);
-        _builder_3.append(_firstUpper_16, "");
-        _builder_3.append(");\t   ");
-        _builder_3.newLineIfNotEmpty();
-        _switchResult = _builder_3;
-        break;
+    String _restriction = elem.getValidator().getRestriction();
+    if (_restriction != null) {
+      switch (_restriction) {
+        case "numeric":
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("int value");
+          String _firstUpper_1 = this.toFirstUpper(elem.getId());
+          _builder_1.append(_firstUpper_1);
+          _builder_1.append(" = Integer.parseInt(str");
+          String _firstUpper_2 = this.toFirstUpper(elem.getId());
+          _builder_1.append(_firstUpper_2);
+          _builder_1.append(");");
+          _builder_1.newLineIfNotEmpty();
+          _switchResult = _builder_1;
+          break;
+        case "letters":
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append("for (int i = 0;  i<str");
+          String _firstUpper_3 = this.toFirstUpper(elem.getId());
+          _builder_2.append(_firstUpper_3);
+          _builder_2.append(".length(); i++){");
+          _builder_2.newLineIfNotEmpty();
+          _builder_2.append("\t");
+          _builder_2.append("char c = str");
+          String _firstUpper_4 = this.toFirstUpper(elem.getId());
+          _builder_2.append(_firstUpper_4, "\t");
+          _builder_2.append(".charAt(i);");
+          _builder_2.newLineIfNotEmpty();
+          _builder_2.append("\t");
+          _builder_2.append("if (!((c >= \'a\' && c <= \'z\') || (c >= \'A\' && c <= \'Z\') || (c == \' \'))) {");
+          _builder_2.newLine();
+          _builder_2.append("\t\t");
+          _builder_2.append("throw new Exception(\"erroneous syntax\");}}    ");
+          _builder_2.newLine();
+          _switchResult = _builder_2;
+          break;
+        case "date":
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append("int day");
+          String _firstUpper_5 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_5);
+          _builder_3.append(" = Integer.parseInt(str");
+          String _firstUpper_6 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_6);
+          _builder_3.append(".substring(0,2));");
+          _builder_3.newLineIfNotEmpty();
+          _builder_3.append("if (str");
+          String _firstUpper_7 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_7);
+          _builder_3.append(".charAt(2) != \'.\') throw new Exception(\"erroneous syntax\");");
+          _builder_3.newLineIfNotEmpty();
+          _builder_3.append("int month");
+          String _firstUpper_8 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_8);
+          _builder_3.append(" = Integer.parseInt(str");
+          String _firstUpper_9 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_9);
+          _builder_3.append(".substring(3,5));");
+          _builder_3.newLineIfNotEmpty();
+          _builder_3.append("if (str");
+          String _firstUpper_10 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_10);
+          _builder_3.append(".charAt(5) != \'.\') throw new Exception(\"erroneous syntax\");");
+          _builder_3.newLineIfNotEmpty();
+          _builder_3.append("int year");
+          String _firstUpper_11 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_11);
+          _builder_3.append(" = Integer.parseInt(str");
+          String _firstUpper_12 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_12);
+          _builder_3.append(".substring(6,10));");
+          _builder_3.newLineIfNotEmpty();
+          _builder_3.append("Date date");
+          String _firstUpper_13 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_13);
+          _builder_3.append(" = new Date(year");
+          String _firstUpper_14 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_14);
+          _builder_3.append("-1900,month");
+          String _firstUpper_15 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_15);
+          _builder_3.append("-1,day");
+          String _firstUpper_16 = this.toFirstUpper(elem.getId());
+          _builder_3.append(_firstUpper_16);
+          _builder_3.append(");\t   ");
+          _builder_3.newLineIfNotEmpty();
+          _switchResult = _builder_3;
+          break;
+      }
     }
     return (_builder.toString() + _switchResult);
   }
   
   public String toFirstUpper(final String str) {
-    String _substring = str.substring(0, 1);
-    String _upperCase = _substring.toUpperCase();
-    String _substring_1 = str.substring(1);
-    return (_upperCase + _substring_1);
+    String _upperCase = str.substring(0, 1).toUpperCase();
+    String _substring = str.substring(1);
+    return (_upperCase + _substring);
   }
 }
