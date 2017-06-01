@@ -1,0 +1,8 @@
+Window mainWindow { 
+	Title "The main window"
+	main
+	
+	Label "Some text to be displayed"
+	
+	Button okButton "Confirm"
+} 

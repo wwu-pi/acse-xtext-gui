@@ -50,7 +50,6 @@ class GuiDslGenerator extends AbstractGenerator {
   }
 	
   def generatePreliminaries(Window win)'''
-	package gui;
 	import java.sql.Date;
 
 	import org.eclipse.swt.SWT;
