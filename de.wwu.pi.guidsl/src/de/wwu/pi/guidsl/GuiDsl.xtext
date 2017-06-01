@@ -1,0 +1,28 @@
+grammar de.wwu.pi.guidsl.GuiDsl with org.eclipse.xtext.common.Terminals
+
+generate guiDsl "http://www.wwu.de/pi/guidsl/GuiDsl"
+
+Model:
+	windows+=Window+;
+	
+Window:
+	'Window' id=ID '{' ('Title' title=STRING)? ('Parameters' parameters=INT)? (main='main')? elements+=Element* '}';
+	
+Element:
+	LabeledText | Label | Button;
+	
+LabeledText:
+	'LabeledText' id=ID (text=STRING)? (validator=Validator)?;
+	
+Validator:
+	'Validator' (restriction='numeric' | 
+	             restriction='letters' | 
+	             restriction='date');
+	
+Label: 
+	'Label' text=STRING;
+	
+Button:
+	'Button' id=ID (text=STRING)? ;
+
+//terminal MYSTRING: ('a'..'z'|'A'..'Z'|'0'..'9'|'.'|':'|'!'|'?'|' ')+;
