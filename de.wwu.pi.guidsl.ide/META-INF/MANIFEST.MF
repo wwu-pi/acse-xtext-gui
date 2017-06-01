@@ -7,5 +7,9 @@ Bundle-SymbolicName: de.wwu.pi.guidsl.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: de.wwu.pi.guidsl,
  org.eclipse.xtext.ide,
- org.eclipse.xtext.xbase.ide
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.wwu.pi.guidsl.ide.contentassist.antlr.internal,
+ de.wwu.pi.guidsl.ide.contentassist.antlr
+

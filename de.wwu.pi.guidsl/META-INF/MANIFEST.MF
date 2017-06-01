@@ -7,5 +7,23 @@ Bundle-SymbolicName: de.wwu.pi.guidsl; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
- org.eclipse.equinox.common;bundle-version="3.5.0"
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
+ org.eclipse.xtext.util,
+ org.eclipse.xtend.lib,
+ org.eclipse.emf.common
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.wwu.pi.guidsl.guiDsl,
+ de.wwu.pi.guidsl.parser.antlr.internal,
+ de.wwu.pi.guidsl.scoping,
+ de.wwu.pi.guidsl,
+ de.wwu.pi.guidsl.services,
+ de.wwu.pi.guidsl.guiDsl.util,
+ de.wwu.pi.guidsl.validation,
+ de.wwu.pi.guidsl.serializer,
+ de.wwu.pi.guidsl.parser.antlr,
+ de.wwu.pi.guidsl.guiDsl.impl,
+ de.wwu.pi.guidsl.generator
+Import-Package: org.apache.log4j
